@@ -141,8 +141,8 @@ def getStationSensorReadings(device_names, date):
     try:
 
         #setting the date to be searched
-        start_date = datetime.strptime(date, "%d-%m-%Y")
-        end_date = start_date + relativedelta(days=1)
+        start_date = datetime.strptime(date, "%d-%m-%Y %H:%M")
+        end_date = start_date + relativedelta(hours=1)
 
         #set query
         query = {
