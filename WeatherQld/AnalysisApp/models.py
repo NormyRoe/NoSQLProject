@@ -37,9 +37,9 @@ collection2 = dbname['Stations']
 
 def getReadings():
     try:
-        cursor = collection.find().limit(10)
-        list_cur = list(cursor)
-        json_data = dumps(list_cur)
+        cursor = collection.find().batch_size(batch_size).limit(100)
+        readings = list(cursor)
+        json_data = dumps(readings)
         print("JSON Data" + json_data)
         return json_data
 
