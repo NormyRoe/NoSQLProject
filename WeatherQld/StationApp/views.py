@@ -28,12 +28,14 @@ def TheModelView(request):
         try:
             body = json.loads(request.body.decode("utf-8"))
 
-            required_fields = ['stationName', 'address', 'sensorName', 'longitude', 'latitude']
+            required_fields = ['stationName', 'address', 'sensorName', 'longitude', 'latitude', 'access role']
 
             for field in required_fields:
                 if field not in body:
                     return error_response(f"Missing '{field}' in request body", status_code=400) 
             
+            access_role = body['access role']
+
             newrecord = {
                 "Station Name": body['stationName'],
                 "Station Address": body['address'],
@@ -42,8 +44,12 @@ def TheModelView(request):
                 "Latitude": body["latitude"]                       
             }
             
-            response = models.insertStation(newrecord)
-            return JsonResponse(response, status=201, safe=False)
+            if (access_role == "Admin"):
+                response = models.insertStation(newrecord)
+                return JsonResponse(response, status=201, safe=False)
+
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)

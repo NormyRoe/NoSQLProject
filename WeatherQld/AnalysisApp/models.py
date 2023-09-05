@@ -35,7 +35,7 @@ collection2 = dbname['Stations']
 # Create your models here.
 
 
-def getReadings():
+def getReadings(batch_size):
     try:
         cursor = collection.find().batch_size(batch_size).limit(100)
         readings = list(cursor)

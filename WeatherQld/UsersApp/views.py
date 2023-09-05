@@ -28,9 +28,17 @@ def TheModelView(request):
 
         try:
             body = json.loads(request.body.decode("utf-8"))
+            
+            access_role = body['access role']
+            
             newrecords = body['records']
-            response = models.insertUsers(newrecords)
-            return JsonResponse(response, status=201, safe=False)
+            
+            if (access_role == "Admin"):
+                response = models.insertUsers(newrecords)
+                return JsonResponse(response, status=201, safe=False)
+            
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)
@@ -40,10 +48,19 @@ def TheModelView(request):
 
         try:
             body = json.loads(request.body.decode("utf-8"))
+
+            access_role = body['access role']
+
             recordIDs = body['recordIds']
+
             newrecords = body['records']
-            response = models.putUsers(recordIDs, newrecords)
-            return JsonResponse(response, status=201, safe=False)
+
+            if (access_role == "Admin"):
+                response = models.putUsers(recordIDs, newrecords)
+                return JsonResponse(response, status=201, safe=False)
+            
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)
@@ -53,12 +70,19 @@ def TheModelView(request):
 
         try:
             body = json.loads(request.body.decode("utf-8"))
+            
+            access_role = body['access_role']
 
             startDate = body['startDate']
             endDate = body['endDate']
             accessRole = body['Access Role']
-            response = models.updateUsers(accessRole, startDate, endDate)
-            return JsonResponse(response, status=201, safe=False)
+
+            if (access_role == "Admin"):
+                response = models.updateUsers(accessRole, startDate, endDate)
+                return JsonResponse(response, status=201, safe=False)
+            
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)
@@ -67,8 +91,16 @@ def TheModelView(request):
     if (request.method == "DELETE"):
 
         try:
-            response = models.deleteUsers()
-            return JsonResponse(response, status=201, safe=False)
+            body = json.loads(request.body.decode("utf-8"))
+
+            access_role = body['access role']
+
+            if (access_role == "Admin"):
+                response = models.deleteUsers()
+                return JsonResponse(response, status=201, safe=False)
+            
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)
@@ -79,8 +111,16 @@ def UserID(request, ID):
     if (request.method == "DELETE"):
 
         try:
-            response = models.deleteUserID(ID)
-            return JsonResponse(response, status=201, safe=False)
+            body = json.loads(request.body.decode("utf-8"))
+
+            access_role = body['access role']
+
+            if (access_role == "Admin"):
+                response = models.deleteUserID(ID)
+                return JsonResponse(response, status=201, safe=False)
+            
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)

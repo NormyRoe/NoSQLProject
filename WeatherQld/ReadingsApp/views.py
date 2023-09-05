@@ -26,15 +26,22 @@ def TheModelView(request):
         try:
             body = json.loads(request.body.decode("utf-8"))
 
-            required_fields = ['records']
+            required_fields = ['records', 'access role']
 
             for field in required_fields:
                 if field not in body:
                     return error_response(f"Missing '{field}' in request body", status_code=400) 
             
+            access_role = body['access role']
+
             newrecords = body['records']
-            response = models.insertReadings(newrecords)
-            return JsonResponse(response, status=201, safe=False)
+
+            if (access_role == "Admin"):
+                response = models.insertReadings(newrecords)
+                return JsonResponse(response, status=201, safe=False)
+            
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)
@@ -44,11 +51,17 @@ def TheModelView(request):
         try:
             body = json.loads(request.body.decode("utf-8"))
             
+            access_role = body['access role']
+
             readingID = body['_id']
             precipitationValue = body['Precipitation mm/h']
-                    
-            response = models.updatePrecipitation(readingID, precipitationValue)
-            return JsonResponse(response, status=201, safe=False)
+
+            if (access_role == "Admin"):        
+                response = models.updatePrecipitation(readingID, precipitationValue)
+                return JsonResponse(response, status=201, safe=False)
+            
+            else:
+                return HttpResponse("You are not authorised to submit this request", status=403)
 
         except Exception as e:
             return error_response(str(e), status_code=500)

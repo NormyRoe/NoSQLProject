@@ -40,7 +40,8 @@ def TheModelView(request):
                 return views.MaximumTempValue(request, startDate, endDate, agrrfunc)
 
             elif not (sensor or station or startDate):
-                json_data = models.getReadings()
+                batch_size = 10
+                json_data = models.getReadings(batch_size)
                 return JsonResponse(json_data, safe=False)
 
             else:

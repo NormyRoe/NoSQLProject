@@ -30,11 +30,12 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [    
     'AnalysisApp',
     'ReadingsApp',
     'StationApp',
     'UsersApp',
+    'corsheaders',    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,8 +45,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',    
     'django.middleware.common.CommonMiddleware',
 #    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -129,3 +131,60 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS = ['*']
+
+#CORS access variables
+
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOW_CREDENTIALS = False
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://localhost:8000",
+    "http://localhost:4200",
+]
+
+
+# Allow specified methods for approved origins
+
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",    
+    "POST",
+    "PUT",
+)
+
+#import and use CORS headers
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = (
+    *default_headers,
+)
+
+
+
+
+
+
+# Define a custom response for denied origins (optional)
+#CORS_ALLOW_HEADERS = (
+#    "access-control-allow-origin",
+#    "access-control-allow-methods",
+    # Add any other headers you want to include in the denied response
+#)
+
+# Customize the response for denied origins
+#CORS_ALLOW_ALL_ORIGINS = True  # Allow any origin temporarily for denied response
+
+#CORS_ALLOW_APPS = [
+#    'AnalysisApp',
+#    'ReadingsApp',
+#    'StationApp',
+#    'UsersApp',    
+#]
+
+#CORS_ORIGIN_WHITELIST = (
+#    'http://localhost:4200',
+#    'http://localhost:8080',
+#    'http://localhost:8000',
+#)
