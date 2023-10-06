@@ -131,7 +131,9 @@ def deleteUsers():
         #identify old date based on the 30 days
         old_date = current_date - relativedelta(days=30)
 
-        # in place of a tringger when existing users are inactive for 30 days not including admin users
+        # in place of a trigger when existing users are inactive for 
+        # 30 days not including admin users
+        
         query = {
             "Last Login": {"$lt": old_date},
             "Access Role": {"$ne": "Admin"}

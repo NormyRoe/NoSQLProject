@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'ReadingsApp',
     'StationApp',
     'UsersApp',
+    'LoginApp',
     'corsheaders',    
     'django.contrib.admin',
     'django.contrib.auth',

@@ -22,5 +22,6 @@ urlpatterns = [
     path('readings', include('ReadingsApp.urls')),
     path('station', include('StationApp.urls')),    
     path('users', include('UsersApp.urls')),
+    path('login', include('LoginApp.urls')),
     path('admin/', admin.site.urls),
 ]
